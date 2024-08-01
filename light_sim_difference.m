@@ -8,10 +8,10 @@ L=1000;
 retarderRotateAngle=linspace(0,pi,L);
 ef0=zeros([L 2]); ef45=ef0; ef90=ef0; ef135=ef0;
 
-exp_file = uigetfile;
-[path,filename,ext]=fileparts(exp_file);
-disp(['選擇了檔案 ' exp_file])
-load(exp_file);
+%exp_file = uigetfile;
+%[path,filename,ext]=fileparts(exp_file);
+%disp(['選擇了檔案 ' exp_file])
+%load(exp_file);
 
 % 把算出來的水平方向和垂直方向的電場放到結果裡
 % 算出來會是column vector分別代表x y的電場分量，放到matrix裡
@@ -34,11 +34,12 @@ i90=sqrt(ef90(:,1).^2+ef90(:,2).^2).^2;
 i135=sqrt(ef135(:,1).^2+ef135(:,2).^2).^2;
 
 delta=atan2((i0-i90),(i45-i135));
+retarderRotateAngle_diff=rad2deg(retarderRotateAngle(2:length(retarderRotateAngle)))-rad2deg(retarderRotateAngle(1:length(retarderRotateAngle)-1));
+delta_diff=delta(2:length(delta))-delta(1:length(delta)-1);
 
 figure,plot( ...
-        rad2deg(retarderRotateAngle),delta,...
-        exp_data(:,1),exp_data(:,2),'go', ...
+        rad2deg(retarderRotateAngle_diff),delta_diff,...
         "LineWidth",2)
-xlabel('Retarder Rotate Angle(Degree)');
-ylabel('Phase Delay(Radian)');
-legend('理論',filename,'Interpreter', 'none')
+xlabel('Retarder Rotate Angle Difference \theta_{n}-\theta_{n-1} (Degree)',FontSize=15);
+ylabel("Phase Delay Difference \delta_{\theta_{n}}-\delta_{\theta_{n-1}} (Radian)",FontSize=15);
+legend('理論')
