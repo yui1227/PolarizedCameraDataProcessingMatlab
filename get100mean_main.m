@@ -14,4 +14,6 @@ for idx=1:length(foldersStruct)
     degreeFound=str2num(regexp(folderName(idx),"^\d+","match"));
     expdata(find(x==degreeFound,1))=get100mean(fullfile(folderPath,folderName(idx)),imageCount,blurKernel);
 end
-disp([x;expdata]')
+exp_data = [x;expdata]';
+[folderLocation,folderName,ext]=fileparts(folderPath);
+save(strcat(folderName,".mat"),"folderPath","exp_data");
